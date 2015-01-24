@@ -1,0 +1,13 @@
+Flask==0.10.1
+gunicorn==19.0.0 
+itsdangerous==0.24
+Jinja2==2.7.3
+MarkupSafe==0.23
+pip==6.0.6
+setuptools==11.0
+Werkzeug==0.9.6
+jieba==0.35
+Flask-Markdown==0.3
+httplib2==0.9
+urllib3==1.9.1
+flickrapi==2.0
