@@ -1,19 +1,38 @@
-from flask import Flask
+from flask import Flask, make_response
 import flickrapi
 import os
 import json
+from functools import wraps
+
+
 api_key = os.environ['FLICKR_API_KEY']
 api_secret = os.environ['FLICKR_SECRET']
 flickr = flickrapi.FlickrAPI(api_key, api_secret, format='parsed-json')
 
 
+def allow_cross_domain(fun):
+	@wraps(fun)
+	def wrapper_fun(*args, **kwargs):
+		rst = make_response(fun(*args, **kwargs))
+		rst.headers['Access-Control-Allow-Origin'] = '*'
+		rst.headers['Access-Control-Allow-Methods'] = 'PUT,GET,POST,DELETE'
+		allow_headers = "Referer,Accept,Origin,User-Agent"
+		rst.headers['Access-Control-Allow-Headers'] = allow_headers
+		return rst
+	return wrapper_fun
+
+
+
+
 app = Flask(__name__)
 
 @app.route("/")
+@allow_cross_domain
 def hello():
     return "Hello World!"
 
 @app.route('/task_name/<task_name>')
+@allow_cross_domain
 def query_task(task_name):
     ongoing_imgs=[]
     task_photos = flickr.photos.search(text=task_name)
@@ -33,6 +52,7 @@ def query_task(task_name):
     return str(json_imgs)
 
 @app.route('/img_id/<img_id>')
+@allow_cross_domain
 def get_tags(img_id):
 #     return "hello%s"%img_id
     tags_cloud=[]
