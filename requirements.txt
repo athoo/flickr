@@ -3,7 +3,7 @@ gunicorn==19.0.0
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
-pip==6.0.6
+pip==19.2
 setuptools==11.0
 Werkzeug==0.9.6
 jieba==0.35
